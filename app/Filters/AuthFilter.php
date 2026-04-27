@@ -19,4 +19,5 @@ class AuthFilter implements FilterInterface
     {
         // Kosongkan
     }
+
 }

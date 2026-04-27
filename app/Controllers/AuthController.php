@@ -20,13 +20,15 @@ class AuthController extends BaseController
         $session = session();
         $model = new UserModel();
 
-        $username = $this->request->getVar('username');
-        $password = $this->request->getVar('password');
+        $username = trim($this->request->getVar('username'));
+        $password = trim($this->request->getVar('password'));
 
         $user = $model->where('username', $username)->first();
 
         if ($user) {
             // Menggunakan password_verify (pastikan di database password sudah di-hash)
+    
+
             if (password_verify($password, $user['password'])) {
                 $sessionData = [
                     'user_id'      => $user['id'],
@@ -38,7 +40,7 @@ class AuthController extends BaseController
                 $session->set($sessionData);
                 return redirect()->to('/dashboard');
             } else {
-                $session->setFlashdata('msg', 'Password salah.');
+                $session->setFlashdata('msg', 'Password salah.xxx');
                 return redirect()->to('/login');
             }
         } else {
@@ -52,4 +54,27 @@ class AuthController extends BaseController
         session()->destroy();
         return redirect()->to('/login');
     }
+
+    public function setupAdminz()
+    {
+        $model = new \App\Models\UserModel();
+        
+        // Hapus user admin lama jika ada agar tidak duplikat
+        $model->where('username', 'admin')->delete();
+
+        $data = [
+            'username'     => 'admin',
+            'password'     => password_hash('admin123', PASSWORD_BCRYPT),
+            'nama_lengkap' => 'Administrator TK',
+            'role'         => 'admin'
+        ];
+
+        if ($model->insert($data)) {
+            return "User Admin berhasil dibuat! Silakan coba login dengan password: admin123";
+        } else {
+            return "Gagal membuat user.";
+        }
+    }
+
+
 }
