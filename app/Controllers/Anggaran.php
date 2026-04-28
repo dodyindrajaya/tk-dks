@@ -62,14 +62,45 @@ class Anggaran extends BaseController
 
         return redirect()->to('/anggaran/detail/'.$id_anggaran);
     }
+
+    public function edit($id)
+    {
+        $model = new AnggaranModel();
+        $data['header'] = $model->find($id);
+        $data['ta_list'] = (new TAModel())->findAll();
+        $data['title'] = 'Edit Anggaran';
+
+        return view('admin/anggaran/edit', $data);
+    }
+
+    public function update($id)
+    {
+        $model = new AnggaranModel();
+        $model->update($id, [
+            'id_ta' => $this->request->getPost('id_ta'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'bulan_kegiatan' => $this->request->getPost('bulan_kegiatan')
+        ]);
+
+        return redirect()->to('/anggaran')->with('success', 'Anggaran berhasil diperbarui');
+    }
+
+    public function delete($id)
+    {
+        $db = \Config\Database::connect();
+        $db->table('anggaran_detail')->where('id_anggaran', $id)->delete();
+
+        $model = new AnggaranModel();
+        $model->delete($id);
+
+        return redirect()->to('/anggaran')->with('success', 'Anggaran berhasil dihapus');
+    }
+
     public function delete_detail($id, $id_anggaran)
-{
-    $detailModel = new \App\Models\AnggaranDetailModel();
-    $detailModel->delete($id);
-    
-    // Karena kita sudah buat afterDelete di Model, 
-    // total_anggaran di header akan otomatis berkurang sendiri.
-    
-    return redirect()->to('/anggaran/detail/'.$id_anggaran);
-}
+    {
+        $detailModel = new AnggaranDetailModel();
+        $detailModel->delete($id);
+        
+        return redirect()->to('/anggaran/detail/'.$id_anggaran);
+    }
 }

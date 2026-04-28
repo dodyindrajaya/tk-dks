@@ -55,6 +55,38 @@ class Realisasi extends BaseController
         return redirect()->to('/realisasi/detail/'.$id_realisasi);
     }
 
+    public function edit($id)
+    {
+        $model = new RealisasiModel();
+        $data['header'] = $model->find($id);
+        $data['anggaran_list'] = (new AnggaranModel())->findAll();
+        $data['title'] = 'Edit Realisasi';
+
+        return view('admin/realisasi/edit', $data);
+    }
+
+    public function update($id)
+    {
+        $model = new RealisasiModel();
+        $model->update($id, [
+            'id_anggaran' => $this->request->getPost('id_anggaran'),
+            'deskripsi'   => $this->request->getPost('deskripsi')
+        ]);
+
+        return redirect()->to('/realisasi')->with('success', 'Realisasi berhasil diperbarui');
+    }
+
+    public function delete($id)
+    {
+        $db = \Config\Database::connect();
+        $db->table('realisasi_detail')->where('id_realisasi', $id)->delete();
+
+        $model = new RealisasiModel();
+        $model->delete($id);
+
+        return redirect()->to('/realisasi')->with('success', 'Realisasi berhasil dihapus');
+    }
+
     public function delete_detail($id, $id_realisasi)
     {
         (new RealisasiDetailModel())->delete($id);

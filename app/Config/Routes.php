@@ -28,12 +28,18 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('/ta/delete/(:num)', 'TahunAjaran::delete/$1');  // Route Delete
 });
 $routes->get('/anggaran', 'Anggaran::index');
+$routes->get('/anggaran/edit/(:num)', 'Anggaran::edit/$1');
+$routes->post('/anggaran/update/(:num)', 'Anggaran::update/$1');
+$routes->get('/anggaran/delete/(:num)', 'Anggaran::delete/$1');
 $routes->post('/anggaran/save', 'Anggaran::save');
 $routes->get('/anggaran/detail/(:num)', 'Anggaran::detail/$1');
 $routes->post('/anggaran/save_detail/(:num)', 'Anggaran::save_detail/$1');
 $routes->get('/anggaran/delete_detail/(:num)/(:num)', 'Anggaran::delete_detail/$1/$2');
 
 $routes->get('/realisasi', 'Realisasi::index');
+$routes->get('/realisasi/edit/(:num)', 'Realisasi::edit/$1');
+$routes->post('/realisasi/update/(:num)', 'Realisasi::update/$1');
+$routes->get('/realisasi/delete/(:num)', 'Realisasi::delete/$1');
 $routes->post('/realisasi/save', 'Realisasi::save');
 $routes->get('/realisasi/detail/(:num)', 'Realisasi::detail/$1');
 $routes->post('/realisasi/save_detail/(:num)', 'Realisasi::save_detail/$1');

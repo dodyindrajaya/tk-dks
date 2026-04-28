@@ -24,7 +24,9 @@
                     <td><?= $row['bulan_kegiatan'] ?></td>
                     <td><strong>Rp <?= number_format($row['total_anggaran'], 0, ',', '.') ?></strong></td>
                     <td>
-                        <a href="<?= base_url('anggaran/detail/'.$row['id']) ?>" class="btn btn-info btn-sm">Kelola Detail Item</a>
+                        <a href="<?= base_url('anggaran/edit/'.$row['id']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="<?= base_url('anggaran/delete/'.$row['id']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus anggaran ini? Semua item akan ikut terhapus.')">Hapus</a>
+                        <a href="<?= base_url('anggaran/detail/'.$row['id']) ?>" class="btn btn-info btn-sm">Detail Item</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

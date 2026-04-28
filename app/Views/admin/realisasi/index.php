@@ -24,7 +24,9 @@
                     <td><?= $row['deskripsi'] ?></td>
                     <td class="text-primary"><strong>Rp <?= number_format($row['total_realisasi'], 0, ',', '.') ?></strong></td>
                     <td>
-                        <a href="<?= base_url('realisasi/detail/'.$row['id']) ?>" class="btn btn-info btn-sm">Rincian Realisasi</a>
+                        <a href="<?= base_url('realisasi/edit/'.$row['id']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="<?= base_url('realisasi/delete/'.$row['id']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus realisasi ini? Semua rincian akan ikut terhapus.')">Hapus</a>
+                        <a href="<?= base_url('realisasi/detail/'.$row['id']) ?>" class="btn btn-info btn-sm">Rincian</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
